@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import * as MenubarPrimitive from "@radix-ui/react-menubar"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
@@ -40,14 +41,34 @@ const Menubar = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "flex h-10 items-center space-x-1 rounded-md border bg-background p-1",
-      className
-    )}
-    {...props}
-  />
+  <div className="flex w-full justify-between items-center">
+    {/* Hamburger menu for small screens */}
+    <div className="sm:hidden">
+      <MenubarPrimitive.Root>
+        <MenubarMenu>
+          <MenubarTrigger className="p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-16 6h16" />
+            </svg>
+          </MenubarTrigger>
+          <MenubarContent>
+            <Link href="/" passHref>
+              <MenubarItem asChild>
+                <span>Home</span>
+              </MenubarItem>
+            </Link>
+            <Link href="/about" passHref>
+              <MenubarItem asChild>
+                <span>About</span>
+              </MenubarItem>
+            </Link>
+          </MenubarContent>
+        </MenubarMenu>
+      </MenubarPrimitive.Root>
+    </div>
+    {/* Regular menu for larger screens */}
+    <MenubarPrimitive.Root ref={ref} className={cn("hidden sm:flex h-10 items-center space-x-1 rounded-md border bg-background p-1", className)} {...props} />
+  </div>
 ))
 Menubar.displayName = MenubarPrimitive.Root.displayName
 

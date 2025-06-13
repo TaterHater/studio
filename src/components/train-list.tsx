@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, FC } from 'react'; // Combined imports
+import Link from 'next/link';
 import type { Train } from '@/types/train';
 import {
   Table,
@@ -110,7 +111,12 @@ const TrainList: FC<TrainListProps> = ({ trains }) => {
                 const { icon, color } = getStatusVisuals(train.tripStatus);
                 return (
                   <TableRow key={train.id} className="transition-colors hover:bg-muted/50 text-xs sm:text-sm">
-                    <TableCell className="font-medium py-2 px-2 sm:px-4">{train.label} <span className="text-muted-foreground">({train.headsign})</span></TableCell>
+                    <TableCell className="font-medium py-2 px-2 sm:px-4">
+                      <Link href={`/train/${train.id}`} className="text-primary hover:underline">
+                        {train.label}
+                      </Link>
+                      <span className="text-muted-foreground">({train.directionName})</span>
+                      </TableCell>
                     <TableCell className="py-2 px-2 sm:px-4">
                       <div className={`flex items-center ${color}`}>
                         {icon}

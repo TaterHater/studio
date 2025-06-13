@@ -54,6 +54,7 @@ const TrainMap: FC<TrainMapProps> = ({ trains, apiKey }) => {
         gestureHandling="greedy"
         disableDefaultUI={true}
         className="w-full h-full"
+        
         style={{ borderRadius: 'inherit' }} // Ensure map respects parent border radius
       >
         {trains.map((train) => (
@@ -62,8 +63,25 @@ const TrainMap: FC<TrainMapProps> = ({ trains, apiKey }) => {
             position={{ lat: train.lat, lng: train.lng }}
             onClick={() => setSelectedTrainId(train.id === selectedTrainId ? null : train.id)}
           >
-            <div className="p-1 bg-primary rounded-full shadow-lg hover:scale-110 transition-transform cursor-pointer">
-              <TrainFront className="w-5 h-5 text-primary-foreground" />
+            <div className={`p-1 rounded-full shadow-lg hover:scale-110 transition-transform cursor-pointer ${
+              train.routeId === 'A' ? 'bg-blue-400 text-black' :
+              train.routeId === 'B' ? 'bg-green-400 text-white' :
+              train.routeId === 'D' ? 'bg-green-600 text-white' :
+              train.routeId === 'E' ? 'bg-purple-600 text-white' :
+              train.routeId === 'G' ? 'bg-yellow-400 text-white' :
+              train.routeId === 'H' ? 'bg-blue-600 text-white' :
+              train.routeId === 'L' ? 'bg-yellow-600 text-black' :
+              train.routeId === 'N' ? 'bg-purple-600 text-white' :
+              train.routeId === 'R' ? 'bg-green-300 text-black' :
+              train.routeId === 'W' ? 'bg-teal-600 text-black' :
+              'bg-primary text-primary-foreground' // Default color if direction is unknown
+            }`}>
+              {train.routeId} {`${train.directionName === 'Westbound' ? '←' :
+              train.directionName === 'Eastbound' ? '→' :
+              train.directionName === 'Northbound' ? '↑' :
+              train.directionName === 'Southbound' ? '↓'
+              : ''}`}
+              <TrainFront className="w-3 h-3 text-primary-foreground" />
             </div>
           </AdvancedMarker>
         ))}
@@ -74,7 +92,7 @@ const TrainMap: FC<TrainMapProps> = ({ trains, apiKey }) => {
             pixelOffset={[0, -35]} // Adjust to position above the custom marker
           >
             <div className="p-3 bg-card text-card-foreground rounded-lg shadow-xl min-w-[220px]">
-              <h3 className="font-headline text-lg font-semibold mb-1 text-primary">{selectedTrain.label} ({selectedTrain.headsign})</h3>
+              <h3 className="font-headline text-lg font-semibold mb-1 text-primary">{selectedTrain.routeId} Line - {selectedTrain.label} ({selectedTrain.directionName})</h3>
               <div className="text-sm flex items-center mb-1">
                 {getStatusIcon(selectedTrain.tripStatus)}
                 Status: {selectedTrain.tripStatus.replace(/_/g, ' ')}
