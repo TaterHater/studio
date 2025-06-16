@@ -50,9 +50,9 @@ const TrainMap: FC<TrainMapProps> = ({ trains, apiKey }) => {
       <Map
         mapId="train-tracker-map"
         center={mapCenter}
-        zoom={10}
-        gestureHandling="greedy"
-        disableDefaultUI={true}
+        // zoom={10}
+        // gestureHandling="greedy"
+        disableDefaultUI={false}
         className="w-full h-full"
         
         style={{ borderRadius: 'inherit' }} // Ensure map respects parent border radius
